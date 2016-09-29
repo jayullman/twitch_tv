@@ -1,9 +1,10 @@
 var channels = ["ESL_SC2", "OgamingSC2", "cretetion",
 "freecodecamp", "storbeck", "habathcx", "RobotCaleb",
-"noobs2ninjas"];
+"noobs2ninjas", "comster404"];
 
 function createFunction(channelName) {
   function createChannelDiv(data) {
+    console.log(data);
     var resultsContainer = document.getElementById("resultsContainer");
 
     var channelDiv = document.createElement("div");
@@ -11,6 +12,14 @@ function createFunction(channelName) {
     channelTitle.innerHTML = channelName;
 
     var channelStatus = document.createElement("p");
+    if (data.hasOwnProperty("error")) {
+      channelStatus.innerHTML = "Account deactivated";
+    } else if (data.stream == null) {
+      channelStatus.innerHTML = "Not currently streaming";
+    } else {
+      channelStatus.innerHTML = "Currently playing " + data.stream.game;
+    }
+
 
     channelDiv.setAttribute("class", "channelDiv");
     channelDiv.appendChild(channelTitle);
@@ -30,4 +39,4 @@ $(document).ready(function() {
   }
 });
 
-// TODO: renane closures and functions
+// TODO: rename closures and functions
