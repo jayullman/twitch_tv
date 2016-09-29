@@ -2,9 +2,19 @@ var channels = ["ESL_SC2", "OgamingSC2", "cretetion",
 "freecodecamp", "storbeck", "habathcx", "RobotCaleb",
 "noobs2ninjas", "comster404"];
 
+function updateChannels(target) {
+  var fullChannelList =  [];
+  var resultsContainer = document.getElementById('resultsContainer');
+  // FIXME: getting error: resultsContainer.getElementsByName is not a function
+  fullChannelList = resultsContainer.getElementsByName('div');
+  console.log(fullChannelList.length);
+
+  var filteredChannelList = []; // collect divs that meet search criteria
+  // if online button is clicked:
+}
+
 function createFunction(channelName) {
   function createChannelDiv(data) {
-    console.log(data);
     var resultsContainer = document.getElementById("resultsContainer");
 
     var channelDiv = document.createElement("div");
@@ -27,6 +37,8 @@ function createFunction(channelName) {
 
     resultsContainer.appendChild(channelDiv);
   }
+
+  updateChannels(); // remove: test
   return createChannelDiv;
 }
 
@@ -38,5 +50,3 @@ $(document).ready(function() {
       displayData);
   }
 });
-
-// TODO: rename closures and functions
