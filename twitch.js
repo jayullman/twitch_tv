@@ -3,15 +3,31 @@ var channels = ["ESL_SC2", "OgamingSC2", "cretetion",
 "freecodecamp", "storbeck", "habathcx", "RobotCaleb",
 "noobs2ninjas", "comster404"];
 
-function updateChannels(target) {
+function updateChannels(e) {
   var fullChannelList =  [];
   var resultsContainer = document.getElementById('resultsContainer');
-  // FIXME: getting error: resultsContainer.getElementsByName is not a function
   fullChannelList = resultsContainer.getElementsByTagName('div');
-  console.log(fullChannelList.length);
 
   var filteredChannelList = []; // collect divs that meet search criteria
-  // if online button is clicked:
+
+  // following code runs only if updateChannels is called via one
+  // of the 3 filtering buttons
+  if (e != undefined) {
+    switch (e.target.id) {
+      case 'allButton':
+      // insert code
+      break;
+
+      case 'onlineButton':
+      // insert code
+      break;
+
+      case 'offlineButton':
+      // insert code
+      break;
+    }
+  }
+
 }
 
 function createFunction(channelName) {
@@ -38,13 +54,19 @@ function createFunction(channelName) {
 
     resultsContainer.appendChild(channelDiv);
     updateChannels(); // remove: test
-    
+
   }
 
   return createChannelDiv;
 }
 
 $(document).ready(function() {
+  // adds event listeners to 'all', 'online', 'offline' buttons
+
+  document.getElementById('allButton').addEventListener('click', updateChannels);
+  document.getElementById('onlineButton').addEventListener('click', updateChannels);
+  document.getElementById('offlineButton').addEventListener('click', updateChannels);
+
   for (var i = 0; i < channels.length; i++) {
     var displayData = createFunction(channels[i]);
     $.getJSON('https://api.twitch.tv/kraken/streams/' + channels[i] +
