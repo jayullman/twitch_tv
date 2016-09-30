@@ -1,3 +1,4 @@
+
 var channels = ["ESL_SC2", "OgamingSC2", "cretetion",
 "freecodecamp", "storbeck", "habathcx", "RobotCaleb",
 "noobs2ninjas", "comster404"];
@@ -6,7 +7,7 @@ function updateChannels(target) {
   var fullChannelList =  [];
   var resultsContainer = document.getElementById('resultsContainer');
   // FIXME: getting error: resultsContainer.getElementsByName is not a function
-  fullChannelList = resultsContainer.getElementsByName('div');
+  fullChannelList = resultsContainer.getElementsByTagName('div');
   console.log(fullChannelList.length);
 
   var filteredChannelList = []; // collect divs that meet search criteria
@@ -36,9 +37,10 @@ function createFunction(channelName) {
     channelDiv.appendChild(channelStatus);
 
     resultsContainer.appendChild(channelDiv);
+    updateChannels(); // remove: test
+    
   }
 
-  updateChannels(); // remove: test
   return createChannelDiv;
 }
 
