@@ -10,46 +10,69 @@ var channels = ["ESL_SC2", "OgamingSC2", "cretetion",
 "freecodecamp", "storbeck", "habathcx", "RobotCaleb",
 "noobs2ninjas", "comster404"];
 var fullChannelList = [];
-var onlineList = []; // collect divs that meet search criteria
-var offlineList = []; // collect divs that meet search criteria
+var onlineList = [];
+var offlineList = [];
+var filteredList = [] // filtered down list as user types into textfield
 
 function updateChannels(e) {
-
   var resultsContainer = document.getElementById('resultsContainer');
 
   function clearResults() {
     if (resultsContainer.hasChildNodes()) {
       while (resultsContainer.hasChildNodes()) {
-        resultsContainer.removeChild(resultsContainer.firstChild)
+        resultsContainer.removeChild(resultsContainer.firstChild);
       }
     }
   }
 
   function buildResults(list) {
+    var resultsContainer = document.getElementById("resultsContainer");
     for (var i = 0; i < list.length; i++) {
-      resultsContainer.appendChild(list[i]);
-      console.log('yo');
+      var channelDiv = document.createElement("div");
+      var channelTitle = document.createElement("h1");
+      channelTitle.innerHTML = list[i].channelName;
+      var channelStatus = document.createElement("p");
+
+      console.log(list[i]);
+      if (list[i].accountActive == false) {
+        channelStatus.innerHTML = "Account Deactivated";
+      } else if (list[i].isPlaying == true) {
+        channelStatus.innerHTML = "Currently playing " + list[i].game;
+      } else {
+        channelStatus.innerHTML = "Not currently streaming";
+      }
+
+      channelDiv.setAttribute("class", "channelDiv");
+      channelDiv.appendChild(channelTitle);
+      channelDiv.appendChild(channelStatus);
+      resultsContainer.appendChild(channelDiv);
     }
-  }
+    }
 
   // following code runs only if updateChannels is called via one
   // of the 3 filtering buttons
-  if (e != undefined) {
+
+
+  // tests for array - this code runs on initial page loading
+  if (e.length) {
+    buildResults(fullChannelList);
+  } else if (e != undefined) {
     switch (e.target.id) {
       case 'allButton':
       clearResults();
-      console.log(fullChannelList);
+      buildResults(fullChannelList);
       break;
 
       case 'onlineButton':
-      // insert code
+      clearResults();
+      buildResults(onlineList);
       break;
 
       case 'offlineButton':
-      // insert code
+      clearResults();
+      buildResults(offlineList);
       break;
     }
-
   }
 
 }
@@ -59,33 +82,17 @@ function createFunction(channelName) {
 
   function createLists(data) {
     function Channel() {
+      console.log(data);
       this.channelName = channelName;
       this.isPlaying = (data.stream == null) ? false : true;
       this.accountActive = (data.error == 'Not Found') ? false : true;
       this.URLToAccountPage = 'url';
+
+      if (this.isPlaying == true) {
+        this.game = data.stream.game;
+      }
     }
 
-    // var resultsContainer = document.getElementById("resultsContainer");
-    //
-    // var channelDiv = document.createElement("div");
-    // var channelTitle = document.createElement("h1");
-    // channelTitle.innerHTML = channelName;
-    //
-    // var channelStatus = document.createElement("p");
-    // if (data.hasOwnProperty("error")) {
-    //   channelStatus.innerHTML = "Account deactivated";
-    // } else if (data.stream == null) {
-    //   channelStatus.innerHTML = "Not currently streaming";
-    // } else {
-    //   channelStatus.innerHTML = "Currently playing " + data.stream.game;
-    // }
-    //
-    //
-    // channelDiv.setAttribute("class", "channelDiv");
-    // channelDiv.appendChild(channelTitle);
-    // channelDiv.appendChild(channelStatus);
-    //
-    // resultsContainer.appendChild(channelDiv);
     var channelObj = new Channel();
     fullChannelList.push(channelObj);
     if (channelObj.isPlaying) {
@@ -93,6 +100,8 @@ function createFunction(channelName) {
     } else {
       offlineList.push(channelObj);
     }
+
+    updateChannels(fullChannelList);
   }
   return createLists;
 }
