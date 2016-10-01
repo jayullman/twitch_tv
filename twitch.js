@@ -1,21 +1,48 @@
+/*
+Notes:
+- convert the channel divs into objects and store in an array
+- create function that builds list of results with the objects
+*/
 
 var channels = ["ESL_SC2", "OgamingSC2", "cretetion",
 "freecodecamp", "storbeck", "habathcx", "RobotCaleb",
 "noobs2ninjas", "comster404"];
 
 function updateChannels(e) {
+
   var fullChannelList =  [];
   var resultsContainer = document.getElementById('resultsContainer');
-  fullChannelList = resultsContainer.getElementsByTagName('div');
 
   var filteredChannelList = []; // collect divs that meet search criteria
+
+  function clearResults() {
+    if (resultsContainer.hasChildNodes()) {
+      while (resultsContainer.hasChildNodes()) {
+        resultsContainer.removeChild(resultsContainer.firstChild)
+      }
+
+    }
+  }
+
+  function buildResults(list) {
+    for (var i = 0; i < list.length; i++) {
+      resultsContainer.appendChild(list[i]);
+      console.log('yo');
+    }
+  }
+
+  fullChannelList = resultsContainer.getElementsByTagName('div');
+  console.log(fullChannelList);
 
   // following code runs only if updateChannels is called via one
   // of the 3 filtering buttons
   if (e != undefined) {
     switch (e.target.id) {
       case 'allButton':
-      // insert code
+      clearResults();
+      buildResults(fullChannelList);
+      console.log(fullChannelList);
+
       break;
 
       case 'onlineButton':
@@ -26,9 +53,14 @@ function updateChannels(e) {
       // insert code
       break;
     }
+
   }
 
 }
+
+
+
+
 
 function createFunction(channelName) {
   function createChannelDiv(data) {
