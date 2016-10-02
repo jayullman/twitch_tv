@@ -19,25 +19,15 @@ function buildResults() {
   // tests there is user input in the filter text box
   // if there is, the list is built with the filteredList array
   clearResults();
-  switch (currentView) {
-    case 'all':
-      list = fullChannelList;
-      break;
-
-    case 'online':
-      list = onlineList;
-      break;
-
-    case 'offline':
-      list = offlineList;
-      break;
-  }
 
   if (document.getElementById('textFilterChannels').value != '') {
     list = filteredList;
+  } else {
+    list = fullChannelList;
   }
 
   var resultsContainer = document.getElementById("resultsContainer");
+  console.log(list);
   for (var i = 0; i < list.length; i++) {
     if (currentView == 'all' ||
        (currentView == 'online' && list[i].isPlaying == true) ||
@@ -67,23 +57,13 @@ function buildResults() {
 function typeFilter(e) {
   var userInput = e.target.value.toLowerCase();
 
-  if (currentView == 'all') {
-    filteredList = fullChannelList.filter(function(t) {
-      // returns true if userInput is found within the channelName
-      return (t.channelName.toLowerCase().indexOf(userInput) > -1);
-    });
-  } else if (currentView == "online") {
-    onlineList = onlineChannelList.filter(function(t) {
-      return (t.channelName.toLowerCase().indexOf(userInput) > -1);
-    });
-  } else {
-    offlineList = offlineChannelList.filter(function(t) {
-      // returns true if userInput is found within the channelName
-      return (t.channelName.toLowerCase().indexOf(userInput) > -1);
-    });
-  }
 
-  buildResults(filteredList);
+  filteredList = fullChannelList.filter(function(t) {
+    // returns true if userInput is found within the channelName
+    return (t.channelName.toLowerCase().indexOf(userInput) > -1);
+    });
+
+  buildResults();
 }
 
 function clearResults() {
@@ -130,7 +110,6 @@ function createFunction(channelName) {
 
   function createLists(data) {
     function Channel() {
-      console.log(data);
       this.channelName = channelName;
       this.isPlaying = (data.stream == null) ? false : true;
       this.accountActive = (data.error == 'Not Found') ? false : true;
