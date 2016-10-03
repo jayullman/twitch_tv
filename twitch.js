@@ -27,7 +27,6 @@ function buildResults() {
   }
 
   var resultsContainer = document.getElementById("resultsContainer");
-  console.log(list);
   for (var i = 0; i < list.length; i++) {
     if (currentView == 'all' ||
        (currentView == 'online' && list[i].isPlaying == true) ||
@@ -113,7 +112,16 @@ function createFunction(channelName) {
       this.channelName = channelName;
       this.isPlaying = (data.stream == null) ? false : true;
       this.accountActive = (data.error == 'Not Found') ? false : true;
-      this.URLToAccountPage = 'url';
+
+      // Make another AJAX call to get channel information if it exists
+      if (data._links) {
+        console.log('data links true');
+        $.getJSON(data._links.channel +
+         '?client_id=ndpaljo31vlro8fjjdyvfr3o2t130nv&callback=?',
+          function(channelInfo) {
+            console.log(channelInfo);
+          });
+      }
 
       if (this.isPlaying == true) {
         this.game = data.stream.game;
@@ -127,6 +135,7 @@ function createFunction(channelName) {
     } else {
       offlineList.push(channelObj);
     }
+    console.log(data)
 
     updateChannels(fullChannelList);
   }
