@@ -49,6 +49,13 @@ table {
 
 /*****  End CSS Reset  *****/
 
+.wrapper {
+	text-align: center;
+	outline: 1px solid red;
+	width: 75%;
+	margin: 0 auto;
+}
+
 .channelDiv {
 
 }
