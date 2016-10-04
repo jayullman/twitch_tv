@@ -115,30 +115,26 @@ function createFunction(channelName) {
       if (this.isPlaying == true) {
         this.game = data.stream.game;
       }
-    }
-
-    function getChannelInfo(channelInfo) {
-      this.logo = channelInfo.logo;
-      console.log(this);
-
-    }
-    var boundFunction = getChannelInfo.bind(this);
-    // create function to create closure for ajax call or maybe use bind?
-
       // Make another AJAX call to get channel information if it exists
       if (data._links) {
+        this.moreInfo = true;
+      }
+      }
+    var channelObj = new Channel();
+
+      function getChannelInfoOuter(channelObj) {
+        function getAdditionalChannelInfo(data) {
+          channelObj.logo = data.logo;
+        }
+        return getAdditionalChannelInfo;
+      }
+      var additionalChannelInfoCallback = getChannelInfoOuter(channelObj);
+      if (channelObj.moreInfo == true) {
         $.getJSON(data._links.channel +
-         '?client_id=ndpaljo31vlro8fjjdyvfr3o2t130nv&callback=?',
-          //
-          // function(channelInfo) {
-          //   currentChannel.logo = channelInfo.logo;
-          // });
-          boundFunction)
+          '?client_id=ndpaljo31vlro8fjjdyvfr3o2t130nv&callback=?',
+          additionalChannelInfoCallback)
       }
 
-
-
-    var channelObj = new Channel();
     fullChannelList.push(channelObj);
     if (channelObj.isPlaying) {
       onlineList.push(channelObj);
