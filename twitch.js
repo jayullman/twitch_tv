@@ -122,9 +122,13 @@ function createFunction(channelName) {
       }
     var channelObj = new Channel();
 
+    // creates function that can access additional information
+    // from links given from first access point
       function getChannelInfoOuter(channelObj) {
         function getAdditionalChannelInfo(data) {
           channelObj.logo = data.logo;
+          channelObj.url = data.url;
+          console.log(channelObj);
         }
         return getAdditionalChannelInfo;
       }
