@@ -112,21 +112,31 @@ function createFunction(channelName) {
       this.channelName = channelName;
       this.isPlaying = (data.stream == null) ? false : true;
       this.accountActive = (data.error == 'Not Found') ? false : true;
-
-      // Make another AJAX call to get channel information if it exists
-      if (data._links) {
-        console.log('data links true');
-        $.getJSON(data._links.channel +
-         '?client_id=ndpaljo31vlro8fjjdyvfr3o2t130nv&callback=?',
-          function(channelInfo) {
-            console.log(channelInfo);
-          });
-      }
-
       if (this.isPlaying == true) {
         this.game = data.stream.game;
       }
     }
+
+    function getChannelInfo(channelInfo) {
+      this.logo = channelInfo.logo;
+      console.log(this);
+
+    }
+    var boundFunction = getChannelInfo.bind(this);
+    // create function to create closure for ajax call or maybe use bind?
+
+      // Make another AJAX call to get channel information if it exists
+      if (data._links) {
+        $.getJSON(data._links.channel +
+         '?client_id=ndpaljo31vlro8fjjdyvfr3o2t130nv&callback=?',
+          //
+          // function(channelInfo) {
+          //   currentChannel.logo = channelInfo.logo;
+          // });
+          boundFunction)
+      }
+
+
 
     var channelObj = new Channel();
     fullChannelList.push(channelObj);
@@ -135,10 +145,10 @@ function createFunction(channelName) {
     } else {
       offlineList.push(channelObj);
     }
-    console.log(data)
 
     updateChannels(fullChannelList);
   }
+
   return createLists;
 }
 
