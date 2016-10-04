@@ -17,5 +17,6 @@ Things learned:
 
   - using ternary conditional operator for variable assignment
   - using TODOs within my code
+  - using two ajax requests
 
   Summary: Using the twitch API to...
