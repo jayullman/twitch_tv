@@ -15,11 +15,11 @@ var offlineList = [];
 var filteredList = []; // filtered down list as user types into textfield
 var currentView = 'all'; // setting to determine which view option user selected
 
+// creates DOM elements from global lists of channel objects
 function buildResults() {
   // tests there is user input in the filter text box
   // if there is, the list is built with the filteredList array
   clearResults();
-
   if (document.getElementById('textFilterChannels').value != '') {
     list = filteredList;
   } else {
@@ -36,6 +36,15 @@ function buildResults() {
        var channelTitle = document.createElement("h1");
        channelTitle.innerHTML = list[i].channelName;
        var channelStatus = document.createElement("p");
+       var logo = document.createElement('img');
+
+       // FIXME receiving error
+       if (list[i].logo) {
+          logo.setAttribute('src', list[i].logo);
+          logo.setAttribute('alt', 'Channel Logo');
+       }
+
+       // TODO add url to channel page: a tag wrapping channel div
 
        if (list[i].accountActive == false) {
          channelStatus.innerHTML = "Account Deactivated";
@@ -45,7 +54,9 @@ function buildResults() {
          channelStatus.innerHTML = "Not currently streaming";
        }
 
+       // TODO attach logo img to page
        channelDiv.setAttribute("class", "channelDiv");
+       channelDiv.appendChild(logo);
        channelDiv.appendChild(channelTitle);
        channelDiv.appendChild(channelStatus);
        resultsContainer.appendChild(channelDiv);
@@ -86,6 +97,7 @@ function updateChannels(e) {
   } else if (e != undefined) {
     switch (e.target.id) {
       case 'allButton':
+      console.log(fullChannelList);
       currentView = 'all';
       buildResults(fullChannelList);
       break;
@@ -119,7 +131,7 @@ function createFunction(channelName) {
       if (data._links) {
         this.moreInfo = true;
       }
-      }
+    }
     var channelObj = new Channel();
 
     // creates function that can access additional information
@@ -128,7 +140,7 @@ function createFunction(channelName) {
         function getAdditionalChannelInfo(data) {
           channelObj.logo = data.logo;
           channelObj.url = data.url;
-          console.log(channelObj);
+          buildResults();
         }
         return getAdditionalChannelInfo;
       }
