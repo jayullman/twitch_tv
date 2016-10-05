@@ -37,8 +37,14 @@ function buildResults() {
        channelTitle.innerHTML = list[i].channelName;
        var channelStatus = document.createElement("p");
        var logo = document.createElement('img');
+       var aElem = document.createElement('a');
 
-       // FIXME receiving error
+       if (list[i].url) {
+         aElem.setAttribute('href', list[i].url);
+       } else {
+         aElem.setAttribute('href', 'https://www.twitch.tv/' + list[i].channelName);
+       }
+
        if (list[i].logo) {
           logo.setAttribute('src', list[i].logo);
           logo.setAttribute('alt', 'Channel Logo');
@@ -54,12 +60,12 @@ function buildResults() {
          channelStatus.innerHTML = "Not currently streaming";
        }
 
-       // TODO attach logo img to page
+       aElem.appendChild(channelDiv);
        channelDiv.setAttribute("class", "channelDiv");
        channelDiv.appendChild(logo);
        channelDiv.appendChild(channelTitle);
        channelDiv.appendChild(channelStatus);
-       resultsContainer.appendChild(channelDiv);
+       resultsContainer.appendChild(aElem);
      }
   }
 }
