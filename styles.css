@@ -69,8 +69,9 @@ body {
 	margin: 20px auto;
 }
 
-a {
+a, a:visited, a:link {
 	text-decoration: none;
+	color: #000;
 }
 
 img {
@@ -85,7 +86,7 @@ img {
 	height: 100px;
 	margin-top: 10px;
 	background-color: #dddd5f;
-	border: 5px solid #88b7d5;
+	border: 7px solid #88b7d5;
 	border-radius: 10px;
 }
 .channelDiv h1 {
