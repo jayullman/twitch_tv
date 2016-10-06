@@ -38,6 +38,9 @@ function buildResults() {
        var channelStatus = document.createElement("p");
        var logo = document.createElement('img');
        var aElem = document.createElement('a');
+       var spanElem = document.createElement('span');
+       spanElem.innerHTML = '<br>Followers: ' + list[i].followers;
+
 
        if (list[i].url) {
          aElem.setAttribute('href', list[i].url);
@@ -58,6 +61,7 @@ function buildResults() {
          channelStatus.innerHTML = "Account Deactivated";
        } else if (list[i].isPlaying == true) {
          channelStatus.innerHTML = "Currently playing " + list[i].game;
+
        } else {
          channelStatus.innerHTML = "Not currently streaming";
        }
@@ -67,6 +71,14 @@ function buildResults() {
        channelDiv.appendChild(logo);
        channelDiv.appendChild(channelTitle);
        channelDiv.appendChild(channelStatus);
+
+       if (list[i].accountActive == true) {
+         var spanElem = document.createElement('span');
+         spanElem.setAttribute('class', 'followers');
+         spanElem.innerHTML = '<br>Followers: ' + list[i].followers;
+         channelStatus.appendChild(spanElem);
+       }
+
        resultsContainer.appendChild(aElem);
      }
   }
@@ -165,6 +177,7 @@ function createFunction(channelName) {
         function getAdditionalChannelInfo(data) {
           channelObj.logo = data.logo;
           channelObj.url = data.url;
+          channelObj.followers = data.followers;
 
           // examine data from second AJAX call
           // console.log(data);
