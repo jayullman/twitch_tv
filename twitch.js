@@ -48,6 +48,8 @@ function buildResults() {
        if (list[i].logo) {
           logo.setAttribute('src', list[i].logo);
           logo.setAttribute('alt', 'Channel Logo');
+       } else {
+         logo.setAttribute('src', 'http://res.cloudinary.com/dzxlm4zmj/image/upload/v1475772939/twitch_deactivated_iaxquh.png')
        }
 
        // TODO add url to channel page: a tag wrapping channel div
@@ -103,20 +105,34 @@ function updateChannels(e) {
   } else if (e != undefined) {
     switch (e.target.id) {
       case 'allButton':
-      console.log(fullChannelList);
-      currentView = 'all';
-      buildResults(fullChannelList);
-      break;
+
+        document.getElementById('allButton').setAttribute('class', 'arrow_box active');
+        document.getElementById('onlineButton').setAttribute('class', 'arrow_box');
+        document.getElementById('offlineButton').setAttribute('class', 'arrow_box');
+
+        currentView = 'all';
+        buildResults(fullChannelList);
+        break;
 
       case 'onlineButton':
-      currentView = 'online';
-      buildResults(onlineList);
-      break;
+
+        document.getElementById('allButton').setAttribute('class', 'arrow_box');
+        document.getElementById('onlineButton').setAttribute('class', 'arrow_box active');
+        document.getElementById('offlineButton').setAttribute('class', 'arrow_box');
+
+        currentView = 'online';
+        buildResults(onlineList);
+        break;
 
       case 'offlineButton':
-      currentView = 'offline';
-      buildResults(offlineList);
-      break;
+
+        document.getElementById('allButton').setAttribute('class', 'arrow_box');
+        document.getElementById('onlineButton').setAttribute('class', 'arrow_box');
+        document.getElementById('offlineButton').setAttribute('class', 'arrow_box active');
+
+        currentView = 'offline';
+        buildResults(offlineList);
+        break;
     }
   }
 
