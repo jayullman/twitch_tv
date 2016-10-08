@@ -1,11 +1,3 @@
-/*
-Notes:
-- convert the channel divs into objects and store in an array
-- create function that builds list of results with the objects
-- add setInerval to refresh channel lists every so often
-- add 'Last Updated: <time>'
-*/
-
 var channels = ["ESL_SC2", "OgamingSC2", "cretetion",
 "freecodecamp", "storbeck", "habathcx", "RobotCaleb",
 "noobs2ninjas", "comster404"];
